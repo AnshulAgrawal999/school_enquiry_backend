@@ -86,6 +86,9 @@ export class EnquiryForm extends Document {
     @Prop()
     currentSchool: string  ;
 
+    @Prop()
+    lastYearGrade: string  ;
+
     @Prop( { type: Address } )
     address: Address  ;
 
@@ -97,6 +100,9 @@ export class EnquiryForm extends Document {
 
     @Prop()
     wantHostel: boolean  ;
+
+    @Prop()
+    wantTransport: boolean  ;
 }
 
 
