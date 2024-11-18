@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common'  ;
 
-import { CreateStudentDto } from 'src/dto/create-student.dto';
+import { CreateStudentDto } from 'src/dto/create-student.dto'  ;
+ 
+import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
-import { UpdateStudentDto } from 'src/dto/update-student.dto';
-
-import { StudentService } from 'src/service/student/student.service';
+import { StudentService } from 'src/service/student/student.service'  ;
 
 @Controller('student')
 export class StudentController {
@@ -30,23 +30,23 @@ export class StudentController {
 async updateStudent(@Res() response,@Param('id') studentId: string,
 @Body() updateStudentDto: UpdateStudentDto) {
   try {
-   const existingStudent = await this.studentService.updateStudent(studentId, updateStudentDto);
+   const existingStudent = await this.studentService.updateStudent(studentId, updateStudentDto)  ;
   return response.status(HttpStatus.OK).json({
   message: 'Student has been successfully updated',
   existingStudent,});
  } catch (err) {
-   return response.status(err.status).json(err.response);
+   return response.status(err.status).json(err.response)  ;
  }
 }
 
 @Get()
 async getStudents(@Res() response) {
 try {
-  const studentData = await this.studentService.getAllStudents();
+  const studentData = await this.studentService.getAllStudents()  ;
   return response.status(HttpStatus.OK).json({
-  message: 'All students data found successfully',studentData,});
+  message: 'All students data found successfully',studentData,})  ;
  } catch (err) {
-  return response.status(err.status).json(err.response);
+  return response.status(err.status).json(err.response)  ;
  }
 }
 
@@ -54,11 +54,11 @@ try {
 async getStudent(@Res() response, @Param('id') studentId: string) {
  try {
     const existingStudent = await
-this.studentService.getStudent(studentId);
+this.studentService.getStudent(studentId)  ;
     return response.status(HttpStatus.OK).json({
-    message: 'Student found successfully',existingStudent,});
+    message: 'Student found successfully',existingStudent,})  ;
  } catch (err) {
-   return response.status(err.status).json(err.response);
+   return response.status(err.status).json(err.response)  ;
  }
 }
 
@@ -66,12 +66,12 @@ this.studentService.getStudent(studentId);
 async deleteStudent(@Res() response, @Param('id') studentId: string)
 {
   try {
-    const deletedStudent = await this.studentService.deleteStudent(studentId);
+    const deletedStudent = await this.studentService.deleteStudent(studentId)  ;
     return response.status(HttpStatus.OK).json({
     message: 'Student deleted successfully',
     deletedStudent,});
   }catch (err) {
-    return response.status(err.status).json(err.response);
+    return response.status(err.status).json(err.response)  ;
   }
  }
 }

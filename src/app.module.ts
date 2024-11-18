@@ -12,11 +12,17 @@ import { StudentSchema } from './schema/student.schema';
 
 import { StudentService } from './service/student/student.service';
 
-@Module({
-  imports:[MongooseModule.forRoot( 'mongodb+srv://anshulagr799:agrbobby*07@cluster0.edmtnx7.mongodb.net/admissionEnquiry?retryWrites=true&w=majority' ),
-MongooseModule.forFeature([{ name: 'Student', schema: StudentSchema }])],
-  controllers: [AppController,StudentController],
-  providers: [AppService,StudentService],
-})
+
+@Module( {
+
+  imports: [ MongooseModule.forRoot( 'mongodb+srv://anshulagr799:agrbobby*07@cluster0.edmtnx7.mongodb.net/admissionEnquiry?retryWrites=true&w=majority&appName=Cluster0' ) ,
+             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } ] )
+  ] ,
+
+  controllers: [ AppController, StudentController ] ,
+
+  providers: [ AppService, StudentService ] ,
+  
+} )
 
 export class AppModule {}
