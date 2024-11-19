@@ -17,10 +17,20 @@ export class StudentController {
   {
     try {
       const newEnquiryForm = await this.studentService.createStudent( createStudentDto )  ;
+
+      if( !newEnquiryForm )
+      {
+        return response.status( HttpStatus.CONFLICT ).json(
+          {
+              message: 'Enquiry form already registered with this guardian phone number'  ,
+              newEnquiryForm
+          }
+        )  ;
+      }
   
       return response.status( HttpStatus.CREATED ).json(
           {
-              message: 'EnquiryForm has been created successfully'  ,
+              message: 'Enquiry Form has been created successfully'  ,
               newEnquiryForm
           }
       )  ;
@@ -48,7 +58,7 @@ export class StudentController {
   
       return response.status( HttpStatus.OK ).json(
             {
-                message: 'EnquiryForm has been successfully updated',
+                message: 'Enquiry Form has been successfully updated',
                 existingEnquiryForm
             }
         )  ;
@@ -73,7 +83,7 @@ export class StudentController {
   
       return response.status( HttpStatus.OK ).json(
         {
-          message: 'EnquiryForm found successfully'  ,
+          message: 'Enquiry Form found successfully'  ,
           existingEnquiryForm
         }
     )  ;
@@ -98,11 +108,12 @@ export class StudentController {
     
       const enquiryFormData = await this.studentService.getAllStudents()  ;
 
-        if( !enquiryFormData )
+      if ( enquiryFormData.length == 0 ) 
         {
           return response.status( HttpStatus.NOT_FOUND ).json(
             {
-                message: 'No enquiry form found!' 
+                message: 'No enquiry form found!' ,
+                enquiryFormData
             }
             )
         }
@@ -138,7 +149,7 @@ export class StudentController {
   
       return response.status( HttpStatus.OK ).json(
         {
-          message: 'EnquiryForm deleted successfully',
+          message: 'Enquiry Form deleted successfully',
           deletedEnquiryForm
         }
       )  ;

@@ -26,6 +26,13 @@ async createStudent( createStudentDto : CreateStudentDto ) : Promise<IStudent> {
   
   try 
   { 
+      const existingEnquiryForm = await this.studentModel.findOne( { "guardianPhoneNumber" : createStudentDto.guardianPhoneNumber } ).exec()  ;
+      
+      if( existingEnquiryForm )
+      {
+        return null  ;
+      }
+
       const newEnquiryForm = new this.studentModel( createStudentDto )  ; 
 
       return newEnquiryForm.save()  ; 
@@ -44,12 +51,13 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   
   try 
   { 
-      const existingEnquiryForm = await this.studentModel.findByIdAndUpdate( enquiryFormId , updateStudentDto , { new: true } )  ; 
+      const existingEnquiryForm = await this.studentModel.findByIdAndUpdate( enquiryFormId , updateStudentDto , { new: true } ).exec()  ; 
 
       if ( !existingEnquiryForm ) 
       {
         throw new NotFoundException( `EnquiryForm #${enquiryFormId} not found` )  ;
       }
+
       return existingEnquiryForm  ;
 
   }catch ( error ) 
@@ -67,12 +75,7 @@ async getAllStudents() : Promise<IStudent[]> {
   
   try 
   { 
-      const enquiryFormData = await this.studentModel.find()  ;
-
-      if ( !enquiryFormData || enquiryFormData.length == 0 ) 
-      {
-          throw new NotFoundException( 'EnquiryForms data not found!' )  ;
-      }
+      const enquiryFormData = await this.studentModel.find().exec()  ;
 
       return enquiryFormData  ;
 
@@ -112,7 +115,7 @@ async deleteStudent( enquiryFormId : string ) : Promise<IStudent> {
   
   try 
   { 
-      const deletedEnquiryForm = await this.studentModel.findByIdAndDelete( enquiryFormId )  ; 
+      const deletedEnquiryForm = await this.studentModel.findByIdAndDelete( enquiryFormId ).exec()  ; 
 
       if ( !deletedEnquiryForm ) 
       {

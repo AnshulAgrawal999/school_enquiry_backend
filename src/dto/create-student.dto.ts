@@ -44,7 +44,8 @@ export class CreateStudentDto {
   @IsNotEmpty()
   currentGrade: string  ;
 
-  // @IsDate()
+  @IsDate()
+  @Type( () => Date )
   @IsNotEmpty()
   dateOfBirth: Date  ;
 
@@ -56,9 +57,9 @@ export class CreateStudentDto {
   @MaxLength(5)
   lastYearGrade ?: string  ;
 
-  // @ValidateNested()
+  @ValidateNested()
   @Type( () => AddressDto )
-  // @IsNotEmpty()
+  @IsNotEmpty()
   address: AddressDto  ;
 
   @IsString()
