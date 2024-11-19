@@ -1,17 +1,16 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'  ;
 
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose'  ;
 
-import { AppController } from './app.controller';
+import { AppController } from './app.controller'  ;
 
-import { AppService } from './app.service';
+import { AppService } from './app.service'  ;
 
-import { StudentController } from './controller/student/student.controller';
+import { StudentController } from './controller/student/student.controller'  ;
 
-import { StudentSchema } from './schema/student.schema';
+import { StudentSchema } from './schema/student.schema'  ;
 
-import { StudentService } from './service/student/student.service';
-import { StudentService } from './student/student.service';
+import { StudentService } from './service/student/student.service'  ;
 
 
 @Module( {
