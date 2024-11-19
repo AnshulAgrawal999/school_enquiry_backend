@@ -6,11 +6,15 @@ import { AppController } from './app.controller'  ;
 
 import { AppService } from './app.service'  ;
 
-import { StudentController } from './controller/student/student.controller'  ;
-
 import { StudentSchema } from './schema/student.schema'  ;
 
+import { StudentController } from './controller/student/student.controller'  ;
+
 import { StudentService } from './service/student/student.service'  ;
+
+import { AdminController } from './controller/admin/admin.controller'  ;
+
+import { AdminService } from './service/admin/admin.service'  ;
 
 
 @Module( {
@@ -19,9 +23,9 @@ import { StudentService } from './service/student/student.service'  ;
              MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } ] )
   ] ,
 
-  controllers: [ AppController, StudentController ] ,
+  controllers: [ AppController, StudentController , AdminController ] ,
 
-  providers: [ AppService, StudentService ] ,
+  providers: [ AppService, StudentService , AdminService ] ,
   
 } )
 
