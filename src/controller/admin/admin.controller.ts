@@ -1,4 +1,4 @@
-import { Body , Controller , Delete , Get , HttpStatus , Param , Patch , Res } from '@nestjs/common'  ;
+import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res } from '@nestjs/common'  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
@@ -13,6 +13,43 @@ export class AdminController {
 
 
     constructor( private readonly studentService: StudentService , private readonly adminService: AdminService ) { }
+    
+
+  // @Post( '/login' )
+  // async loginAdmin ( @Res() response : Response , @Body() createStudentDto: CreateStudentDto ) 
+  // {
+  //   try {
+  //     const newEnquiryForm = await this.studentService.createStudent( createStudentDto )  ;
+
+  //     if( !newEnquiryForm )
+  //     {
+  //       return response.status( HttpStatus.CONFLICT ).json(
+  //         {
+  //             message: 'Enquiry form already registered with this guardian phone number'  ,
+  //             newEnquiryForm
+  //         }
+  //       )  ;
+  //     }
+  
+  //     return response.status( HttpStatus.CREATED ).json(
+  //         {
+  //             message: 'Enquiry Form has been created successfully'  ,
+  //             newEnquiryForm
+  //         }
+  //     )  ;
+  
+  //   } 
+  //   catch ( err ) {
+    
+  //       return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+  //           {
+  //               statusCode: 500,
+  //               message: 'Error: Internal Server Error!',
+  //               err
+  //           }
+  //       )  ;
+  //   }
+  // }
 
 
     @Patch( '/:id' )

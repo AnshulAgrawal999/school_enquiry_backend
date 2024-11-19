@@ -37,7 +37,7 @@ export enum EnquirySource {
  }
 
 
-// Define the Address class
+// Address class
 
 @Schema()
 class Address {
@@ -58,7 +58,7 @@ class Address {
   country: string  ;
 }
 
-// Define the Student class
+// Student class
 
 @Schema( { timestamps: true } )
 export class Student extends Document {
@@ -113,6 +113,6 @@ export class Student extends Document {
 }
 
 
-// Create the schema
+// schema
 
 export const StudentSchema = SchemaFactory.createForClass( Student )  ;
