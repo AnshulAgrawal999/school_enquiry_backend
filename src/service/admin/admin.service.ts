@@ -4,10 +4,15 @@ import { InjectModel } from '@nestjs/mongoose'  ;
 
 import { IStudent } from 'src/interface/student.interface'  ;
 
+import { IAdmin } from 'src/interface/admin.interface'  ;
+
 import { Model } from "mongoose"  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
+import { UpdateAdminDto } from 'src/dto/update-admin.dto'  ;
+
+import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
 
 @Injectable()
 export class AdminService {
@@ -18,7 +23,58 @@ private readonly logger = new Logger( AdminService.name )  ;
 
 
 
-constructor( @InjectModel( 'Student' ) private readonly studentModel: Model<IStudent> ) { } 
+constructor( @InjectModel( 'Student' ) private readonly studentModel: Model<IStudent> ,
+             @InjectModel('Admin') private readonly adminModel: Model<IAdmin>) { } 
+
+
+
+async createAdmin( createAdminDto : CreateAdminDto ) : Promise<IAdmin> { 
+  
+  try 
+  { 
+    const existingAdmin = await this.adminModel.findOne( { "username" : createAdminDto.username } ).exec()  ;
+      
+    if( existingAdmin )
+    {
+      return null  ;
+    }
+
+    const newAdmin = new this.adminModel( createAdminDto )  ; 
+
+    return newAdmin.save()  ; 
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error creating admin' , error )  ; 
+
+      throw new Error( 'Error creating admin' )  ; 
+  } 
+}
+
+
+
+// async createStudent( createStudentDto : CreateStudentDto ) : Promise<IStudent> { 
+  
+//   try 
+//   { 
+//       const existingEnquiryForm = await this.studentModel.findOne( { "guardianPhoneNumber" : createStudentDto.guardianPhoneNumber } ).exec()  ;
+      
+//       if( existingEnquiryForm )
+//       {
+//         return null  ;
+//       }
+
+//       const newEnquiryForm = new this.studentModel( createStudentDto )  ; 
+
+//       return newEnquiryForm.save()  ; 
+
+//   }catch ( error ) 
+//   { 
+//       this.logger.error( 'Error creating enquiry form' , error )  ; 
+
+//       throw new Error( 'Error creating enquiry form' )  ; 
+//   } 
+// }
 
 
 

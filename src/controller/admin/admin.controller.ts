@@ -2,6 +2,10 @@ import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , 
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
+import { UpdateAdminDto } from 'src/dto/update-admin.dto'  ;
+
+import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
+
 import { StudentService } from 'src/service/student/student.service'  ;
 
 import { AdminService } from 'src/service/admin/admin.service'  ;
@@ -12,7 +16,44 @@ import { Response } from 'express'  ;
 export class AdminController {
 
 
-    constructor( private readonly studentService: StudentService , private readonly adminService: AdminService ) { }
+  constructor( private readonly studentService: StudentService , private readonly adminService: AdminService ) { }
+
+
+  @Post( '/create' )
+  async createAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
+  {
+    try {
+      const newAdmin = await this.adminService.createAdmin( createAdminDto )  ;
+
+      if( !newAdmin )
+      {
+        return response.status( HttpStatus.CONFLICT ).json(
+          {
+              message: 'Admin with this username already registered'  ,
+              newAdmin
+          }
+        )  ;
+      }
+  
+      return response.status( HttpStatus.CREATED ).json(
+          {
+              message: 'new Admin created successfully'  ,
+              newAdmin
+          }
+      )  ;
+  
+    } 
+    catch ( err ) {
+    
+        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+            {
+                statusCode: 500,
+                message: 'Error: Internal Server Error!',
+                err
+            }
+        )  ;
+    }
+  }
     
 
   // @Post( '/login' )
@@ -60,7 +101,7 @@ export class AdminController {
     
         return response.status( HttpStatus.OK ).json(
               {
-                  message: 'Enquiry Form has been successfully updated',
+                  message: 'Enquiry Form successfully updated',
                   existingEnquiryForm
               }
           )  ;

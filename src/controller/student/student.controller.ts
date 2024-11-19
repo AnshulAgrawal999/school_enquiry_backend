@@ -32,7 +32,7 @@ export class StudentController {
   
       return response.status( HttpStatus.CREATED ).json(
           {
-              message: 'Enquiry Form has been created successfully'  ,
+              message: 'new enquiry form created successfully'  ,
               newEnquiryForm
           }
       )  ;
