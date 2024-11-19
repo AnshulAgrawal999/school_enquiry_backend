@@ -93,6 +93,42 @@ export class AdminController {
   }
 
 
+  @Post( '/logout' )
+  async logoutAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
+  {
+    try {
+      const existingAdmin = await this.adminService.logoutAdmin( createAdminDto )  ;
+
+      if( !existingAdmin )
+      {
+        return response.status( HttpStatus.NOT_FOUND ).json(
+          {
+              message: 'No Admin account with this username and password'  ,
+              existingAdmin
+          }
+        )  ;
+      }
+  
+      return response.status( HttpStatus.OK ).json(
+          {
+              message: 'Logout successful'  ,
+              existingAdmin
+          }
+      )  ;
+  
+    } 
+    catch ( err ) {
+    
+        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+            {
+                statusCode: 500,
+                message: 'Error: Internal Server Error!',
+                err
+            }
+        )  ;
+    }
+  }
+
     @Patch( '/:id' )
     async updateStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: string , @Body() updateStudentDto: UpdateStudentDto ) 
     {

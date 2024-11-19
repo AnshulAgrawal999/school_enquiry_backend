@@ -75,6 +75,27 @@ async loginAdmin( createAdminDto : CreateAdminDto ) : Promise<IAdmin> {
 
 
 
+async logoutAdmin( createAdminDto : CreateAdminDto ) : Promise<IAdmin> { 
+  
+  try 
+  { 
+    const existingAdmin = await this.adminModel.findOne( createAdminDto ).exec()  ;
+      
+    if( existingAdmin )
+    {
+      return existingAdmin  ;
+    }
+
+    return null  ;
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error logging out' , error )  ; 
+
+      throw new Error( 'Error logging out' )  ; 
+  } 
+}
+
 
 async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDto ) : Promise<IStudent> { 
   
