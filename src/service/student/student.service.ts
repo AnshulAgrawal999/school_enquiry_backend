@@ -1,42 +1,132 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateStudentDto } from 'src/dto/create-student.dto';
-import { IStudent } from 'src/interface/student.interface';
-import { Model } from "mongoose";
-import { UpdateStudentDto } from 'src/dto/update-student.dto';
+import { Injectable, NotFoundException , Logger } from '@nestjs/common'  ;
+
+import { InjectModel } from '@nestjs/mongoose'  ;
+
+import { CreateStudentDto } from 'src/dto/create-student.dto'  ;
+
+import { IStudent } from 'src/interface/student.interface'  ;
+
+import { Model } from "mongoose"  ;
+
+import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
+
 @Injectable()
 export class StudentService {
-constructor(@InjectModel('Student') private studentModel:Model<IStudent>) { }
-async createStudent(createStudentDto: CreateStudentDto): Promise<IStudent> {
-   const newStudent = new this.studentModel(createStudentDto);
-   return newStudent.save();
+
+
+private readonly logger = new Logger( StudentService.name )  ; 
+
+
+constructor( @InjectModel( 'Student' ) private readonly studentModel: Model<IStudent> ) { } 
+
+
+
+
+async createStudent( createStudentDto : CreateStudentDto ) : Promise<IStudent> { 
+  
+  try 
+  { 
+      const newEnquiryForm = new this.studentModel( createStudentDto )  ; 
+
+      return newEnquiryForm.save()  ; 
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error creating enquiry form' , error )  ; 
+
+      throw new Error( 'Error creating enquiry form' )  ; 
+  } 
 }
-async updateStudent(studentId: string, updateStudentDto: UpdateStudentDto): Promise<IStudent> {
-    const existingStudent = await        this.studentModel.findByIdAndUpdate(studentId, updateStudentDto, { new: true });
-   if (!existingStudent) {
-     throw new NotFoundException(`Student #${studentId} not found`);
-   }
-   return existingStudent;
+
+
+
+async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDto ) : Promise<IStudent> { 
+  
+  try 
+  { 
+      const existingEnquiryForm = await this.studentModel.findByIdAndUpdate( enquiryFormId , updateStudentDto , { new: true } )  ; 
+
+      if ( !existingEnquiryForm ) 
+      {
+        throw new NotFoundException( `EnquiryForm #${enquiryFormId} not found` )  ;
+      }
+      return existingEnquiryForm  ;
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error updating enquiry form' , error )  ; 
+
+      throw new Error( 'Error updating enquiry form' )  ; 
+  } 
 }
-async getAllStudents(): Promise<IStudent[]> {
-    const studentData = await this.studentModel.find();
-    if (!studentData || studentData.length == 0) {
-        throw new NotFoundException('Students data not found!');
-    }
-    return studentData;
+
+
+
+
+async getAllStudents() : Promise<IStudent[]> { 
+  
+  try 
+  { 
+      const enquiryFormData = await this.studentModel.find()  ;
+
+      if ( !enquiryFormData || enquiryFormData.length == 0 ) 
+      {
+          throw new NotFoundException( 'EnquiryForms data not found!' )  ;
+      }
+
+      return enquiryFormData  ;
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error fetching enquiry forms' , error )  ; 
+
+      throw new Error( 'Error fetching enquiry forms' )  ; 
+  } 
 }
-async getStudent(studentId: string): Promise<IStudent> {
-   const existingStudent = await     this.studentModel.findById(studentId).exec();
-   if (!existingStudent) {
-    throw new NotFoundException(`Student #${studentId} not found`);
-   }
-   return existingStudent;
+
+
+
+async getStudent( enquiryFormId : string ) : Promise<IStudent> { 
+  
+  try 
+  { 
+      const existingEnquiryForm = await this.studentModel.findById( enquiryFormId ).exec()  ; 
+
+      if ( !existingEnquiryForm ) 
+      {
+        throw new NotFoundException( `Enquiry form #${enquiryFormId} not found` )  ;
+      }
+      return existingEnquiryForm  ;  
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error fetching enquiry form' , error )  ; 
+
+      throw new Error( 'Error fetching enquiry form' )  ; 
+  } 
 }
-async deleteStudent(studentId: string): Promise<IStudent> {
-    const deletedStudent = await this.studentModel.findByIdAndDelete(studentId);
-   if (!deletedStudent) {
-     throw new NotFoundException(`Student #${studentId} not found`);
-   }
-   return deletedStudent;
+
+
+
+async deleteStudent( enquiryFormId : string ) : Promise<IStudent> { 
+  
+  try 
+  { 
+      const deletedEnquiryForm = await this.studentModel.findByIdAndDelete( enquiryFormId )  ; 
+
+      if ( !deletedEnquiryForm ) 
+      {
+        throw new NotFoundException( `Enquiry form #${enquiryFormId} not found` )  ;
+      }
+      return deletedEnquiryForm  ;
+
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error deleting enquiry form' , error )  ; 
+
+      throw new Error( 'Error deleting enquiry form' )  ; 
+  } 
 }
+
+
 }

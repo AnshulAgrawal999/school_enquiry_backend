@@ -93,9 +93,19 @@ export class StudentController {
 
   @Get()
   async getAllStudents( @Res() response ) {
+    
     try {
     
       const enquiryFormData = await this.studentService.getAllStudents()  ;
+
+        if( !enquiryFormData )
+        {
+          return response.status( HttpStatus.NOT_FOUND ).json(
+            {
+                message: 'No enquiry form found!' 
+            }
+            )
+        }
     
       return response.status( HttpStatus.OK ).json(
         {
