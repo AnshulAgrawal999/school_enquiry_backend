@@ -11,6 +11,7 @@ import { StudentController } from './controller/student/student.controller';
 import { StudentSchema } from './schema/student.schema';
 
 import { StudentService } from './service/student/student.service';
+import { StudentService } from './student/student.service';
 
 
 @Module( {

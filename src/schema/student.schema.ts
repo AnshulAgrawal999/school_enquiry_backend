@@ -60,7 +60,7 @@ class Address {
 
 // Define the Student class
 
-@Schema()
+@Schema( { timestamps: true } )
 export class Student extends Document {
 
    @Prop()

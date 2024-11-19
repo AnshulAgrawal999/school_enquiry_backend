@@ -44,7 +44,7 @@ export class CreateStudentDto {
   @IsNotEmpty()
   currentGrade: string  ;
 
-  @IsDate()
+  // @IsDate()
   @IsNotEmpty()
   dateOfBirth: Date  ;
 

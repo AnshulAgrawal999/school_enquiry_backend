@@ -25,16 +25,17 @@ export class StudentController {
           }
       )  ;
   
-   } catch ( err ) {
-  
-      return response.status( HttpStatus.BAD_REQUEST ).json(
-          {
-              statusCode: 400,
-              message: 'Error: EnquiryForm not created!',
-              error: 'Bad Request'
-          }
-      )  ;
-   }
+    } 
+    catch ( err ) {
+    
+        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+            {
+                statusCode: 500,
+                message: 'Error: Internal Server Error!',
+                err
+            }
+        )  ;
+    }
   }
 
 
@@ -43,18 +44,25 @@ export class StudentController {
   async updateStudent( @Res() response , @Param( 'id' ) enquiryFormId: string , @Body() updateStudentDto: UpdateStudentDto ) 
   {
     try {
-    const existingEnquiryForm = await this.studentService.updateStudent( enquiryFormId , updateStudentDto )  ;
-  0
-    return response.status( HttpStatus.OK ).json(
-          {
-              message: 'EnquiryForm has been successfully updated',
-              existingEnquiryForm
-          }
-  )  ;
-   } catch (err) {
+      const existingEnquiryForm = await this.studentService.updateStudent( enquiryFormId , updateStudentDto )  ;
   
-     return response.status( err.status ).json( err.response )  ;
-  
+      return response.status( HttpStatus.OK ).json(
+            {
+                message: 'EnquiryForm has been successfully updated',
+                existingEnquiryForm
+            }
+        )  ;
+    } 
+    catch (err) {
+    
+      return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+        {
+            statusCode: 500,
+            message: 'Error: Internal Server Error!',
+            err
+        }
+    )  ;
+
    }
   }
 
@@ -69,34 +77,50 @@ export class StudentController {
           existingEnquiryForm
         }
     )  ;
-   } catch ( err ) {
-     return response.status( err.status ).json( err.response )  ;
+   } 
+   catch ( err ) {
+
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(
+      {
+          statusCode: 500,
+          message: 'Error: Internal Server Error!',
+          err
+      }
+  )  ;
    }
   }
   
 
   @Get()
-  async getAllEnquiryForms( @Res() response ) {
-  try {
+  async getAllStudents( @Res() response ) {
+    try {
+    
+      const enquiryFormData = await this.studentService.getAllStudents()  ;
+    
+      return response.status( HttpStatus.OK ).json(
+        {
+            message: 'All enquiry forms data found successfully',
+            enquiryFormData
+        }
+        )  ;
+
+    } 
+    catch (err) {
   
-    const enquiryFormData = await this.studentService.getAllStudents()  ;
-  
-    return response.status( HttpStatus.OK ).json(
-      {
-          message: 'All enquiry forms data found successfully',
-          enquiryFormData
-      }
+        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+          {
+              statusCode: 500,
+              message: 'Error: Internal Server Error!',
+              err
+          }
       )  ;
-      } catch (err) {
-  
-      return response.status( err.status ).json( err.response )  ;
   
    }
   }
 
 
   @Delete( '/:id' )
-  async deleteEnquiryForm( @Res() response , @Param( 'id' ) enquiryFormId: string )
+  async deleteStudent( @Res() response , @Param( 'id' ) enquiryFormId: string )
   {
     try {
   
@@ -108,10 +132,16 @@ export class StudentController {
           deletedEnquiryForm
         }
       )  ;
-    }catch (err) {
+    }
+    catch ( err ) {
   
-      return response.status( err.status ).json( err.response )  ;
-  
+      return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+        {
+            statusCode: 500,
+            message: 'Error: Internal Server Error!',
+            err
+        }
+    )  ; 
     }
    }
   }
