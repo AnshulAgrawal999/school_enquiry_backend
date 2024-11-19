@@ -16,11 +16,13 @@ import { AdminController } from './controller/admin/admin.controller'  ;
 
 import { AdminService } from './service/admin/admin.service'  ;
 
+import { AdminSchema } from './schema/admin.schema';
+
 
 @Module( {
 
   imports: [ MongooseModule.forRoot( 'mongodb+srv://anshulagr799:agrbobby*07@cluster0.edmtnx7.mongodb.net/admissionEnquiry?retryWrites=true&w=majority&appName=Cluster0' ) ,
-             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } ] )
+             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } ] )
   ] ,
 
   controllers: [ AppController, StudentController , AdminController ] ,

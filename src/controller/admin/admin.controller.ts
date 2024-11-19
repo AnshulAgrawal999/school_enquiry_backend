@@ -19,7 +19,7 @@ export class AdminController {
   constructor( private readonly studentService: StudentService , private readonly adminService: AdminService ) { }
 
 
-  @Post( '/create' )
+  @Post( '/register' )
   async createAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
   {
     try {
@@ -56,41 +56,41 @@ export class AdminController {
   }
     
 
-  // @Post( '/login' )
-  // async loginAdmin ( @Res() response : Response , @Body() createStudentDto: CreateStudentDto ) 
-  // {
-  //   try {
-  //     const newEnquiryForm = await this.studentService.createStudent( createStudentDto )  ;
+  @Post( '/login' )
+  async loginAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
+  {
+    try {
+      const existingAdmin = await this.adminService.loginAdmin( createAdminDto )  ;
 
-  //     if( !newEnquiryForm )
-  //     {
-  //       return response.status( HttpStatus.CONFLICT ).json(
-  //         {
-  //             message: 'Enquiry form already registered with this guardian phone number'  ,
-  //             newEnquiryForm
-  //         }
-  //       )  ;
-  //     }
+      if( !existingAdmin )
+      {
+        return response.status( HttpStatus.NOT_FOUND ).json(
+          {
+              message: 'No Admin account with this username and password'  ,
+              existingAdmin
+          }
+        )  ;
+      }
   
-  //     return response.status( HttpStatus.CREATED ).json(
-  //         {
-  //             message: 'Enquiry Form has been created successfully'  ,
-  //             newEnquiryForm
-  //         }
-  //     )  ;
+      return response.status( HttpStatus.OK ).json(
+          {
+              message: 'Login successful'  ,
+              existingAdmin
+          }
+      )  ;
   
-  //   } 
-  //   catch ( err ) {
+    } 
+    catch ( err ) {
     
-  //       return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
-  //           {
-  //               statusCode: 500,
-  //               message: 'Error: Internal Server Error!',
-  //               err
-  //           }
-  //       )  ;
-  //   }
-  // }
+        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+            {
+                statusCode: 500,
+                message: 'Error: Internal Server Error!',
+                err
+            }
+        )  ;
+    }
+  }
 
 
     @Patch( '/:id' )

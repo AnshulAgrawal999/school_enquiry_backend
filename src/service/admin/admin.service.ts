@@ -52,29 +52,27 @@ async createAdmin( createAdminDto : CreateAdminDto ) : Promise<IAdmin> {
 }
 
 
-
-// async createStudent( createStudentDto : CreateStudentDto ) : Promise<IStudent> { 
+async loginAdmin( createAdminDto : CreateAdminDto ) : Promise<IAdmin> { 
   
-//   try 
-//   { 
-//       const existingEnquiryForm = await this.studentModel.findOne( { "guardianPhoneNumber" : createStudentDto.guardianPhoneNumber } ).exec()  ;
+  try 
+  { 
+    const existingAdmin = await this.adminModel.findOne( createAdminDto ).exec()  ;
       
-//       if( existingEnquiryForm )
-//       {
-//         return null  ;
-//       }
+    if( existingAdmin )
+    {
+      return existingAdmin  ;
+    }
 
-//       const newEnquiryForm = new this.studentModel( createStudentDto )  ; 
+    return null  ;
 
-//       return newEnquiryForm.save()  ; 
+  }catch ( error ) 
+  { 
+      this.logger.error( 'Error logging in' , error )  ; 
 
-//   }catch ( error ) 
-//   { 
-//       this.logger.error( 'Error creating enquiry form' , error )  ; 
+      throw new Error( 'Error logging in' )  ; 
+  } 
+}
 
-//       throw new Error( 'Error creating enquiry form' )  ; 
-//   } 
-// }
 
 
 
