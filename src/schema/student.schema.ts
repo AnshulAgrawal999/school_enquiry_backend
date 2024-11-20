@@ -11,7 +11,7 @@ export enum EnquirySource {
    others = 'others'  ,
  }
  
- export enum Grade {
+ export enum currentClass {
      preSchool = 'pre_school' ,
      preNursery = "pre-nursery"  ,
      nursery = "nursery"  ,
@@ -85,7 +85,7 @@ export class Student extends Document {
    gender: boolean  ;
 
    @Prop()
-   currentGrade: string  ;
+   currentClass: string  ;
 
    @Prop()
    dateOfBirth: string  ;

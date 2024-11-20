@@ -42,7 +42,7 @@ export class CreateStudentDto {
   @IsString()
   @MaxLength(15)
   @IsNotEmpty()
-  currentGrade : string  ;
+  currentClass : string  ;
 
   @IsString()
   @IsNotEmpty()

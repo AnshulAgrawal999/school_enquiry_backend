@@ -16,7 +16,7 @@ export interface IStudent extends Document {
 
     gender : boolean  ;
 
-    currentGrade : string  ;
+    currentClass : string  ;
 
     dateOfBirth : string  ;
 
