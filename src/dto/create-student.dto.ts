@@ -9,22 +9,22 @@ export class CreateStudentDto {
   @IsString()
   @MaxLength(40)
   @IsNotEmpty()
-  guardianName: string  ;
+  guardianName : string  ;
 
   @IsString()
   @MaxLength(20)
   @IsNotEmpty()
-  relation: string  ;
+  relation : string  ;
 
   @IsEmail()
   @MaxLength(40)
   @IsNotEmpty()
-  guardianEmail: string  ;
+  guardianEmail : string  ;
 
   @IsNumberString()
   @MaxLength(15)
   @IsNotEmpty()
-  guardianPhoneNumber: string  ;
+  guardianPhoneNumber : string  ;
 
   @IsNumberString()
   @MaxLength(15)
@@ -33,20 +33,20 @@ export class CreateStudentDto {
   @IsString()
   @MaxLength(40)
   @IsNotEmpty()
-  studentName: string  ;
+  studentName : string  ;
 
   @IsBoolean()
   @IsNotEmpty()
-  gender: boolean  ;
+  gender : boolean  ;
 
   @IsString()
   @MaxLength(15)
   @IsNotEmpty()
-  currentGrade: string  ;
+  currentGrade : string  ;
 
   @IsString()
   @IsNotEmpty()
-  dateOfBirth: string  ;
+  dateOfBirth : string  ;
 
   @IsString()
   @MaxLength(40)
@@ -59,12 +59,12 @@ export class CreateStudentDto {
   @ValidateNested()
   @Type( () => AddressDto )
   @IsNotEmpty()
-  address: AddressDto  ;
+  address : AddressDto  ;
 
   @IsString()
   @MaxLength(15)
   @IsNotEmpty()
-  enquirySource: string  ;
+  enquirySource : string  ;
 
   @IsString()
   @MaxLength(200)
@@ -72,9 +72,9 @@ export class CreateStudentDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  wantHostel: boolean  ;
+  wantHostel : boolean  ;
 
   @IsBoolean()
   @IsNotEmpty()
-  wantTransport: boolean  ;
+  wantTransport : boolean  ;
 }

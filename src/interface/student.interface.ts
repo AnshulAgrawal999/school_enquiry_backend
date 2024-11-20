@@ -12,29 +12,29 @@ export interface IStudent extends Document {
 
     guardianMobileNumberOpt ?: string  ;
 
-    studentName: string  ;
+    studentName : string  ;
 
-    gender: boolean  ;
+    gender : boolean  ;
 
-    currentGrade: string  ;
+    currentGrade : string  ;
 
-    dateOfBirth: string  ;
+    dateOfBirth : string  ;
 
     currentSchool ?: string  ;
 
     lastYearGrade ?: string  ;
 
-    address: {
+    address : {
 
-      street: string  ;
+      street : string  ;
 
-      city: string  ;
+      city : string  ;
 
-      state: string  ;
+      state : string  ;
 
-      pincode: string  ;
+      pincode : string  ;
 
-      country: string  ;
+      country : string  ;
 
     }  ;
 

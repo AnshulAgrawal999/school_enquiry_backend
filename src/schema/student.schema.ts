@@ -43,19 +43,19 @@ export enum EnquirySource {
 class Address {
 
   @Prop()
-  street: string  ;   
+  street : string  ;   
 
   @Prop()
-  city: string  ;
+  city : string  ;
 
   @Prop()
-  state: string  ;
+  state : string  ;
 
   @Prop()
-  pincode: string  ;
+  pincode : string  ;
 
   @Prop()
-  country: string  ;
+  country : string  ;
 }
 
 // Student class
