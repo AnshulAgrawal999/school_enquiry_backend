@@ -18,10 +18,13 @@ import { AdminService } from './service/admin/admin.service'  ;
 
 import { AdminSchema } from './schema/admin.schema';
 
+import { ConfigModule } from '@nestjs/config'
+
 
 @Module( {
 
-  imports: [ MongooseModule.forRoot( 'mongodb+srv://anshulagr799:agrbobby*07@cluster0.edmtnx7.mongodb.net/admissionEnquiry?retryWrites=true&w=majority&appName=Cluster0' ) ,
+  imports: [ ConfigModule.forRoot( { isGlobal: true } ) ,
+             MongooseModule.forRoot( process.env.mongodbUrl  ) ,
              MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } ] )
   ] ,
 
