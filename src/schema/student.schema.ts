@@ -88,7 +88,7 @@ export class Student extends Document {
    currentGrade: string  ;
 
    @Prop()
-   dateOfBirth: Date  ;
+   dateOfBirth: string  ;
 
    @Prop()
    currentSchool ?: string  ;

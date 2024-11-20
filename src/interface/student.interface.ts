@@ -18,7 +18,7 @@ export interface IStudent extends Document {
 
     currentGrade: string  ;
 
-    dateOfBirth: Date  ;
+    dateOfBirth: string  ;
 
     currentSchool ?: string  ;
 

@@ -1,4 +1,4 @@
-import { IsNotEmpty , IsString , IsBoolean , MaxLength , IsDate , ValidateNested , IsEmail , IsNumberString } from "class-validator"  ;
+import { IsNotEmpty , IsString , IsBoolean , MaxLength , ValidateNested , IsEmail , IsNumberString } from "class-validator"  ;
 
 import { Type } from 'class-transformer'  ;
 
@@ -44,10 +44,9 @@ export class CreateStudentDto {
   @IsNotEmpty()
   currentGrade: string  ;
 
-  @IsDate()
-  @Type( () => Date )
+  @IsString()
   @IsNotEmpty()
-  dateOfBirth: Date  ;
+  dateOfBirth: string  ;
 
   @IsString()
   @MaxLength(40)
