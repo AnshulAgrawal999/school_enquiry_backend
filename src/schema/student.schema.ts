@@ -3,16 +3,16 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"  ;
 import { Document } from "mongoose"  ;
 
 
-export enum EnquirySource {
-   youtube = 'youTube'  ,
-   instagram = 'instagram'  ,
-   schoolFair = 'school_fair'  ,
-   referral = 'referral'  ,
-   others = 'others'  ,
+ export enum Gender 
+ {
+    male = "male" ,
+    female = "female" ,
+    others = "others" 
  }
+
  
  export enum currentClass {
-     preSchool = 'pre_school' ,
+     preSchool = 'pre school' ,
      preNursery = "pre-nursery"  ,
      nursery = "nursery"  ,
      lkg = "LKG"  ,
@@ -29,11 +29,32 @@ export enum EnquirySource {
      tenthClass = "10th class"  ,
  }
 
- export enum Gender 
+
+ export enum Grade 
  {
-    male = "male" ,
-    female = "female" ,
-    others = "others" 
+    a_plus = "A+" ,
+    b_plus = "B+" ,
+    c_plus = "C+" ,
+    a = "A" ,
+    b = "B" ,
+    c = "C" ,
+    a_minus = "A-" ,
+    b_minus = "B-" ,
+    c_minus = "C-" ,
+    fail = "Fail"
+ }
+
+export enum State
+{
+   Andhra_Pradesh , Arunachal_Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal_Pradesh, Jammu_and_Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya_Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil_Nadu, Telangana, Tripura, Uttar_Pradesh, Uttarakhand, West_Bengal
+}
+ 
+export enum EnquirySource {
+   youtube = 'youTube'  ,
+   instagram = 'instagram'  ,
+   schoolFair = 'school_fair'  ,
+   referral = 'referral'  ,
+   others = 'others'  ,
  }
 
 
