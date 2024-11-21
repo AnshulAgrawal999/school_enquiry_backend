@@ -26,7 +26,6 @@ export class CreateStudentDto {
   @IsNotEmpty()
   guardianPhoneNumber : string  ;
 
-  @IsNumberString()
   @MaxLength(15)
   guardianMobileNumberOpt ?: string  ;
 
@@ -35,7 +34,7 @@ export class CreateStudentDto {
   @IsNotEmpty()
   studentName : string  ;
 
-  @IsBoolean()
+  @IsString()
   @IsNotEmpty()
   gender : boolean  ;
 
@@ -53,7 +52,7 @@ export class CreateStudentDto {
   currentSchool ?: string  ;
 
   @IsString()
-  @MaxLength(5)
+  @MaxLength(15)
   lastYearGrade ?: string  ;
 
   @ValidateNested()

@@ -10,7 +10,7 @@ import { Document } from "mongoose"  ;
     others = "others" 
  }
 
- 
+
  export enum currentClass {
      preSchool = 'pre school' ,
      preNursery = "pre-nursery"  ,
@@ -44,20 +44,51 @@ import { Document } from "mongoose"  ;
     fail = "Fail"
  }
 
+
 export enum State
 {
-   Andhra_Pradesh , Arunachal_Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal_Pradesh, Jammu_and_Kashmir, Jharkhand, Karnataka, Kerala, Ladakh, Madhya_Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil_Nadu, Telangana, Tripura, Uttar_Pradesh, Uttarakhand, West_Bengal
+   Andhra_Pradesh , 
+   Arunachal_Pradesh, 
+   Assam, 
+   Bihar, 
+   Chhattisgarh, 
+   Goa, 
+   Gujarat, 
+   Haryana, 
+   Himachal_Pradesh, 
+   Jammu_and_Kashmir, 
+   Jharkhand, 
+   Karnataka, 
+   Kerala, 
+   Ladakh, 
+   Madhya_Pradesh, 
+   Maharashtra, 
+   Manipur, 
+   Meghalaya, 
+   Mizoram, 
+   Nagaland, 
+   Odisha, 
+   Punjab, 
+   Rajasthan, 
+   Sikkim, 
+   Tamil_Nadu, 
+   Telangana, 
+   Tripura, 
+   Uttar_Pradesh, 
+   Uttarakhand, 
+   West_Bengal
 }
  
 export enum EnquirySource {
+   referral = 'referral'  ,
    youtube = 'youTube'  ,
    instagram = 'instagram'  ,
    schoolFair = 'school_fair'  ,
-   referral = 'referral'  ,
-   others = 'others'  ,
+   others = 'others'  
  }
 
 
+ 
 // Address class
 
 @Schema()
@@ -100,13 +131,13 @@ export class Student extends Document {
    guardianMobileNumberOpt ?: string  ;
 
    @Prop()
-   studentName: string  ;
+   studentName : string  ;
 
    @Prop()
-   gender: boolean  ;
+   gender : string  ;
 
    @Prop()
-   currentClass: string  ;
+   currentClass : string  ;
 
    @Prop()
    dateOfBirth: string  ;
@@ -131,6 +162,15 @@ export class Student extends Document {
 
    @Prop()
    wantTransport: boolean  ;
+
+   @Prop()
+   createdAt : string  ;
+
+   @Prop()
+   updatedAt : string  ;
+
+   @Prop()
+   __v : Number  ;
 }
 
 
