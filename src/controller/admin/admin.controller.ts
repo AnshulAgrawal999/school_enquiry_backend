@@ -1,4 +1,4 @@
-import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res, Req, UnauthorizedException } from '@nestjs/common'  ;
+import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res, Req, UnauthorizedException, Query } from '@nestjs/common'  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
@@ -11,7 +11,7 @@ import { StudentService } from 'src/service/student/student.service'  ;
 import { AdminService } from 'src/service/admin/admin.service'  ;
 
 import { Response } from 'express'  ;
-import { CreateBlackListDto } from 'src/dto/create-blacklist.dto';
+
 
 @Controller('admin')
 export class AdminController {
@@ -187,18 +187,22 @@ export class AdminController {
     
   
     @Get()
-    async getAllStudents( @Res() response : Response ) {
+    async getAllStudents( @Query('page') page: string, @Query('limit') limit: string , @Res() response : Response ) {
       
       try {
-      
-        const enquiryFormData = await this.adminService.getAllStudents()  ;
+
+        const pageNum = parseInt( page , 10 ) || 1  ;  
+    
+        const limitNum = parseInt( limit , 10 ) || 10  ; 
+
+        const { enquiryFormsData , total, totalPages } = await this.adminService.getAllStudents( pageNum , limitNum )  ;
   
-        if ( enquiryFormData.length == 0 ) 
+        if ( enquiryFormsData.length == 0 ) 
           {
             return response.status( HttpStatus.NOT_FOUND ).json(
               {
                   message: 'No enquiry form found!' ,
-                  enquiryFormData
+                  enquiryFormsData
               }
               )
           }
@@ -206,7 +210,12 @@ export class AdminController {
         return response.status( HttpStatus.OK ).json(
           {
               message: 'Enquiry forms found successfully',
-              enquiryFormData
+              enquiryFormsData,
+              pagination : {
+                total ,
+                totalPages ,
+                currentPage : pageNum
+              }
           }
           )  ;
   

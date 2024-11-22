@@ -19,6 +19,7 @@ import * as jwt from 'jsonwebtoken'  ;
 import { LoginAdminDto } from 'src/dto/login-admin.dto'  ;
 
 import { IBlackList } from 'src/interface/blacklist.interface'  ;
+
 import { CreateBlackListDto } from 'src/dto/create-blacklist.dto'  ;
 
 @Injectable()
@@ -157,13 +158,23 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   
   
   
-  async getAllStudents() : Promise<IStudent[]> { 
+  async getAllStudents( page : number , limit : number ) : Promise< { enquiryFormsData : IStudent[] ; total : number ; totalPages : number } > { 
     
     try 
     { 
-        const enquiryFormData = await this.studentModel.find().exec()  ;
-  
-        return enquiryFormData  ;
+        const total = await this.studentModel.countDocuments().exec()  ;
+
+        const skip = ( page - 1 ) * limit  ;
+
+        const students = await this.studentModel.find( ).skip( skip ).limit( limit ).exec()  ;
+
+        const totalPages = Math.ceil( total / limit )  ;
+
+        return {
+          enquiryFormsData : students ,
+          total ,
+          totalPages 
+        }  ;
   
     }catch ( error ) 
     { 
