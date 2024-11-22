@@ -1,4 +1,4 @@
-import { IsNotEmpty , IsString , MaxLength } from "class-validator"  ;
+import { IsEmail, IsNotEmpty , IsString , MaxLength } from "class-validator"  ;
 
 export class CreateAdminDto {
 
@@ -6,6 +6,11 @@ export class CreateAdminDto {
     @MaxLength(40)
     @IsNotEmpty()
     username: string  ;
+
+    @IsEmail()
+    @MaxLength(40)
+    @IsNotEmpty()
+    email: string  ;
 
     @IsString()
     @MaxLength(20)
