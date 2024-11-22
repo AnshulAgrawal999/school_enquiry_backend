@@ -2,8 +2,6 @@ import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , 
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
-import { UpdateAdminDto } from 'src/dto/update-admin.dto'  ;
-
 import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
 
 import { StudentService } from 'src/service/student/student.service'  ;

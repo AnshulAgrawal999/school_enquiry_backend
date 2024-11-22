@@ -10,8 +10,6 @@ import { Model } from "mongoose"  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
-import { UpdateAdminDto } from 'src/dto/update-admin.dto'  ;
-
 import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
 
 @Injectable()
