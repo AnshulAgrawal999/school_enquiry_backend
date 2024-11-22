@@ -187,7 +187,11 @@ export class AdminController {
     
   
     @Get()
-    async getAllStudents( @Query('page') page: string, @Query('limit') limit: string , @Res() response : Response ) {
+    async getAllStudents( @Query('page') page: string, @Query('limit') limit: string ,  @Query('search') search: string ,
+                          @Query('sortBy') sortBy: string ,
+                          @Query('sortOrder') sortOrder: string ,
+                          @Query('filter') filter: string ,
+                          @Res() response : Response ) {
       
       try {
 
