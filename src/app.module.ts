@@ -18,15 +18,17 @@ import { AdminService } from './service/admin/admin.service'  ;
 
 import { AdminSchema } from './schema/admin.schema';
 
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'  ;
+
 import { AuthModule } from './auth/auth.module';
+import { BlackListSchema } from './schema/blacklist.schema';
 
 
 @Module( {
 
   imports: [ ConfigModule.forRoot( { isGlobal: true } ) ,
              MongooseModule.forRoot( process.env.mongodbUrl  ) ,
-             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } ] ),
+             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } , { name: 'BlackList', schema: BlackListSchema }  ] ),
              AuthModule
   ] ,
 

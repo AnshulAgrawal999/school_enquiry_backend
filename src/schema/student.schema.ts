@@ -162,15 +162,6 @@ export class Student extends Document {
 
    @Prop()
    wantTransport: boolean  ;
-
-   @Prop()
-   createdAt : string  ;
-
-   @Prop()
-   updatedAt : string  ;
-
-   @Prop()
-   __v : Number  ;
 }
 
 

@@ -45,10 +45,4 @@ export interface IStudent extends Document {
     wantHostel: boolean  ;
 
     wantTransport: boolean  ;
-
-    createdAt : string  ;
- 
-    updatedAt : string  ;
- 
-    __v : Number  ;
 }

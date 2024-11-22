@@ -1,14 +1,17 @@
-import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res } from '@nestjs/common'  ;
+import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res, Req, UnauthorizedException } from '@nestjs/common'  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
 import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
+
+import { LoginAdminDto } from 'src/dto/login-admin.dto'  ;
 
 import { StudentService } from 'src/service/student/student.service'  ;
 
 import { AdminService } from 'src/service/admin/admin.service'  ;
 
 import { Response } from 'express'  ;
+import { CreateBlackListDto } from 'src/dto/create-blacklist.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -55,17 +58,17 @@ export class AdminController {
     
 
   @Post( '/login' )
-  async loginAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
+  async loginAdmin ( @Res() response : Response , @Body() loginAdminDto: LoginAdminDto ) 
   {
     try {
-      const existingAdmin = await this.adminService.loginAdmin( createAdminDto )  ;
+      const token = await this.adminService.loginAdmin( loginAdminDto )  ;
 
-      if( !existingAdmin )
+      if( !token )
       {
         return response.status( HttpStatus.NOT_FOUND ).json(
           {
               message: 'No Admin account with this username and password'  ,
-              existingAdmin
+              token
           }
         )  ;
       }
@@ -73,7 +76,7 @@ export class AdminController {
       return response.status( HttpStatus.OK ).json(
           {
               message: 'Login successful'  ,
-              existingAdmin
+              token
           }
       )  ;
   
@@ -92,27 +95,31 @@ export class AdminController {
 
 
   @Post( '/logout' )
-  async logoutAdmin ( @Res() response : Response , @Body() createAdminDto: CreateAdminDto ) 
+  async logoutAdmin ( @Req() req : Request , @Res() response : Response ) 
   {
     try {
-      const existingAdmin = await this.adminService.logoutAdmin( createAdminDto )  ;
+      const token = req.headers['authorization']  ;
 
-      if( !existingAdmin )
+      if( !token )
       {
-        return response.status( HttpStatus.NOT_FOUND ).json(
-          {
-              message: 'No Admin account with this username and password'  ,
-              existingAdmin
-          }
-        )  ;
+        throw new UnauthorizedException('No token provided')  ; 
       }
   
-      return response.status( HttpStatus.OK ).json(
-          {
-              message: 'Logout successful'  ,
-              existingAdmin
-          }
-      )  ;
+    const isRevoked = await this.adminService.isTokenRevoked( token )  ;
+
+    if ( isRevoked ) 
+    {
+      throw new UnauthorizedException( 'Token has already been blacklisted' )  ;
+    }
+
+    await this.adminService.logoutAdmin( token )  ;
+
+    return response.status( HttpStatus.OK ).json(
+      {
+          statusCode: 200 ,
+          message: 'Logout successful'
+      }
+    );
   
     } 
     catch ( err ) {
