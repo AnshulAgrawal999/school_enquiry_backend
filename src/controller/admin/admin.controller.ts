@@ -95,18 +95,24 @@ export class AdminController {
   
 
   @Post('/validate-token')
-  async validateToken(@Req() request: Request, @Res() response: Response) {
+  async validateToken( @Req() request : Request , @Res() response : Response ) 
+  {
     try {
-      const token = request.headers['authorization']  ; // Extract token from Authorization header
 
-      const result = await this.adminService.validateToken( token ) ;
+      const token = request.headers['authorization']  ; 
 
-      return response.status(HttpStatus.OK).json( result ) ; // Send back the result from the service
+      const result = await this.adminService.validateToken( token )  ;
 
-    } catch (error) {
-      return response.status(HttpStatus.UNAUTHORIZED).json({
-        message: error.message || 'Invalid or expired token',
-      });
+      return response.status( HttpStatus.OK ).json( result ) ; 
+
+    } 
+    catch (error)
+    {
+      return response.status( HttpStatus.UNAUTHORIZED ).json(
+        {
+          message: error.message || 'Invalid or expired token' ,
+        }
+      )  ;
     }
   }
 
