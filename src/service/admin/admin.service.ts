@@ -97,6 +97,39 @@ async loginAdmin( loginAdminDto : LoginAdminDto ) : Promise< IBlackList > {
 }
 
 
+async validateToken(token: string): Promise<{ message: string; adminName?: string }> {
+  try {
+    if (!token) {
+      throw new UnauthorizedException('Token is missing');
+    }
+
+    // Check if the token is blacklisted
+    const blacklistedToken = await this.blacklistModel.findOne({ token });
+    if (blacklistedToken) {
+      throw new UnauthorizedException('Token is revoked');
+    }
+
+    const decoded: any = jwt.verify(token, 'schoollog'); // Use the same secret key as in your controller
+
+    if (!decoded) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const admin = await this.adminModel.findById(decoded.id);
+    if (!admin) {
+      throw new UnauthorizedException('Admin not found');
+    }
+
+    return {
+      message: 'Token is valid',
+      adminName: admin.username, // Return admin name or any other details
+    };
+  } catch (error) {
+    this.logger.error('Error validating token', error);
+    throw new UnauthorizedException('Invalid or expired token');
+  }
+}
+
 
 async logoutAdmin( token: string ) : Promise< { message: string } > { 
   
@@ -115,6 +148,7 @@ async logoutAdmin( token: string ) : Promise< { message: string } > {
       throw new Error( 'Error logging out' )  ; 
   } 
 }
+
 
 async isTokenRevoked( createBlackListDto : CreateBlackListDto ) : Promise <boolean> {
   
