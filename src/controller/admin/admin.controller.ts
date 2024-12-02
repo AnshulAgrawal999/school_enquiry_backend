@@ -1,4 +1,4 @@
-import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res, Req, UnauthorizedException, Query } from '@nestjs/common'  ;
+import { Body , Controller , Delete , Get , HttpStatus , Param , Post , Patch , Res, Req, UnauthorizedException, Query, BadRequestException } from '@nestjs/common'  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
@@ -6,19 +6,20 @@ import { CreateAdminDto } from 'src/dto/create-admin.dto'  ;
 
 import { LoginAdminDto } from 'src/dto/login-admin.dto'  ;
 
-import { StudentService } from 'src/service/student/student.service'  ;
-
 import { AdminService } from 'src/service/admin/admin.service'  ;
 
 import { Response } from 'express'  ;
+
 import { CreateRemarkListDto } from 'src/dto/create-remarklist.dto';
+
+import { Types } from 'mongoose';
 
 
 @Controller('admin')
 export class AdminController {
 
 
-  constructor( private readonly studentService: StudentService , private readonly adminService: AdminService ) { }
+  constructor( private readonly adminService: AdminService ) { }
 
 
   @Post( '/register' )
@@ -210,12 +211,15 @@ export class AdminController {
     }
 
 
-    // @Post( 'addremark/:studentId' )
-    // async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
+    @Post( 'addremark/:studentId' )
+    async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
 
-    //   return this.adminService.addRemark( studentId , createRemarkListDto )  ;
+      if (!Types.ObjectId.isValid(studentId)) {
+        throw new BadRequestException('Invalid student ID');
+    }
+    return this.adminService.addRemark(studentId, createRemarkListDto);
 
-    // }
+    }
 
 
     @Get( 'remarklist/:studentId' )

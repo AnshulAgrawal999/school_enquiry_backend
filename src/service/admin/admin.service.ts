@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException , UnauthorizedException , Logger } from '@nestjs/common'  ;
+import { Injectable, NotFoundException , UnauthorizedException , Logger, BadRequestException } from '@nestjs/common'  ;
 
 import { InjectModel } from '@nestjs/mongoose'  ;
 
@@ -37,7 +37,8 @@ private readonly logger = new Logger( AdminService.name )  ;
 
 constructor( @InjectModel( 'Student' ) private readonly studentModel: Model<IStudent> ,
              @InjectModel('Admin') private readonly adminModel: Model<IAdmin> ,
-             @InjectModel('BlackList') private readonly blacklistModel: Model<IBlackList> 
+             @InjectModel('BlackList') private readonly blacklistModel: Model<IBlackList> ,
+             @InjectModel('RemarkList') private readonly remarklistModel: Model<IRemarkList> 
              ) { } 
 
 
@@ -256,32 +257,34 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
 
 
 
-  // async addRemark( studentId : string , createRemarkListDto: CreateRemarkListDto ) {
+  async addRemark( studentId : string , createRemarkListDto: CreateRemarkListDto ) {
+     if (!Types.ObjectId.isValid(studentId)) {
+        throw new BadRequestException('Invalid student ID');
+    }
 
-  //   // Find the student by ID
-  //   const student = await this.studentModel.findById(studentId);
+    const studentObjectId = new Types.ObjectId(studentId);
 
-  //   if (!student) {
-  //     throw new NotFoundException('Student not found');
-  //   }
+    // Find the student by ID
+    const student = await this.studentModel.findById(studentObjectId);
 
-  //   // Create a new remark
-  //   const newRemark = new this.remarkListModel({
-  //     username: createRemarkListDto.username,
-  //     comment: createRemarkListDto.comment,
-  //     student: new Types.ObjectId(studentId),  // Reference to the student
-  //   });
+    if (!student) {
+        throw new NotFoundException('Student not found');
+    }
 
-  //   // Save the remark
-  //   await newRemark.save();
+    const newRemark = new this.remarklistModel({
+        username: createRemarkListDto.username,
+        comment: createRemarkListDto.comment,
+        student: studentObjectId, // Use the explicitly created ObjectId
+    });
 
-  //   // Add the remark to the student's remarks array
-  //   student.remarks.push(newRemark._id);
-  //   await student.save();
+    await newRemark.save();
 
-  //   return newRemark;
-  // }
-  // }
+    // student.remarks.push(newRemark._id);
+
+    await student.save();
+
+    return newRemark;
+  }
 
 
 
