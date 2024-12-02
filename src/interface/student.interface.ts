@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'  ;
+import { Document, Types } from 'mongoose'  ;
 
 export interface IStudent extends Document {
     
@@ -45,4 +45,7 @@ export interface IStudent extends Document {
     wantHostel: boolean  ;
 
     wantTransport: boolean  ;
+
+    // Array of RemarkList ObjectIds
+    remarks : Types.ObjectId[]  ;
 }

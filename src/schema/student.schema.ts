@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"  ;
 
-import { Document } from "mongoose"  ;
+import { Document, Types } from "mongoose"  ;
 
 
  export enum Gender 
@@ -162,6 +162,10 @@ export class Student extends Document {
 
    @Prop()
    wantTransport: boolean  ;
+
+   // Array of RemarkList references
+   @Prop( { type: [ { type: Types.ObjectId , ref: 'RemarkList' } ] } )
+   remarks: Types.ObjectId[]  ;
 }
 
 

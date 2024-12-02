@@ -1,8 +1,9 @@
-import { IsNotEmpty , IsString , IsBoolean , MaxLength , ValidateNested , IsEmail , IsNumberString } from "class-validator"  ;
+import { IsNotEmpty , IsString , IsBoolean , MaxLength , ValidateNested , IsEmail , IsNumberString, IsArray, IsOptional } from "class-validator"  ;
 
 import { Type } from 'class-transformer'  ;
 
 import { AddressDto } from "./address.dto";
+import { Types } from "mongoose";
 
 export class CreateStudentDto {
   
@@ -76,4 +77,8 @@ export class CreateStudentDto {
   @IsBoolean()
   @IsNotEmpty()
   wantTransport : boolean  ;
+
+  @IsOptional()
+  @IsArray()
+  remarks?: Types.ObjectId[]  ; // Optional at creation
 }
