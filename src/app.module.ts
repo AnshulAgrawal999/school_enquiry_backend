@@ -22,14 +22,17 @@ import { ConfigModule } from '@nestjs/config'  ;
 
 import { AuthModule } from './auth/auth.module';
 import { BlackListSchema } from './schema/blacklist.schema';
+import { RemarkListSchema } from './schema/remarklist.schema';
+import { AdminModule } from './admin/admin.module';
 
 
 @Module( {
 
   imports: [ ConfigModule.forRoot( { isGlobal: true } ) ,
              MongooseModule.forRoot( process.env.mongodbUrl  ) ,
-             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } , { name: 'BlackList', schema: BlackListSchema }  ] ),
-             AuthModule
+             MongooseModule.forFeature( [ { name: 'Student', schema: StudentSchema } , { name: 'Admin', schema: AdminSchema } , { name: 'BlackList', schema: BlackListSchema } , { name: 'RemarkList', schema: RemarkListSchema } ] ),
+             AuthModule,
+             AdminModule
   ] ,
 
   controllers: [ AppController, StudentController , AdminController ] ,

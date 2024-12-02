@@ -11,6 +11,7 @@ import { StudentService } from 'src/service/student/student.service'  ;
 import { AdminService } from 'src/service/admin/admin.service'  ;
 
 import { Response } from 'express'  ;
+import { CreateRemarkListDto } from 'src/dto/create-remarklist.dto';
 
 
 @Controller('admin')
@@ -206,6 +207,22 @@ export class AdminController {
         }
     )  ;
      }
+    }
+
+
+    // @Post( 'addremark/:studentId' )
+    // async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
+
+    //   return this.adminService.addRemark( studentId , createRemarkListDto )  ;
+
+    // }
+
+
+    @Get( 'remarklist/:studentId' )
+    async getRemarkListByStudent( @Param( 'studentId' ) studentId: string ) {
+
+      return this.adminService.getRemarkListByStudent( studentId )  ;
+
     }
     
   

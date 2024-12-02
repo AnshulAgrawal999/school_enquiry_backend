@@ -6,7 +6,7 @@ import { IStudent } from 'src/interface/student.interface'  ;
 
 import { IAdmin } from 'src/interface/admin.interface'  ;
 
-import { Model } from "mongoose"  ;
+import { Model, Types } from "mongoose"  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
@@ -21,6 +21,10 @@ import { LoginAdminDto } from 'src/dto/login-admin.dto'  ;
 import { IBlackList } from 'src/interface/blacklist.interface'  ;
 
 import { CreateBlackListDto } from 'src/dto/create-blacklist.dto'  ;
+
+import { IRemarkList } from 'src/interface/remarklist.interface'  ;
+
+import { CreateRemarkListDto } from 'src/dto/create-remarklist.dto';
 
 @Injectable()
 export class AdminService {
@@ -249,7 +253,47 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
         throw new Error( 'Error fetching enquiry form' )  ; 
     } 
   }
-  
+
+
+
+  // async addRemark( studentId : string , createRemarkListDto: CreateRemarkListDto ) {
+
+  //   // Find the student by ID
+  //   const student = await this.studentModel.findById(studentId);
+
+  //   if (!student) {
+  //     throw new NotFoundException('Student not found');
+  //   }
+
+  //   // Create a new remark
+  //   const newRemark = new this.remarkListModel({
+  //     username: createRemarkListDto.username,
+  //     comment: createRemarkListDto.comment,
+  //     student: new Types.ObjectId(studentId),  // Reference to the student
+  //   });
+
+  //   // Save the remark
+  //   await newRemark.save();
+
+  //   // Add the remark to the student's remarks array
+  //   student.remarks.push(newRemark._id);
+  //   await student.save();
+
+  //   return newRemark;
+  // }
+  // }
+
+
+
+  async getRemarkListByStudent( studentId: string ) : Promise< IRemarkList[] > {
+
+    const student = await this.studentModel.findById( studentId ).populate< { remarks: IRemarkList[] } >( 'remarks' ).exec()  ;
+
+    if ( !student ) {
+      throw new NotFoundException( 'Student not found' )  ;
+    }
+    return student.remarks as IRemarkList[] || [] ;
+  }
   
   
   async deleteStudent( enquiryFormId : string ) : Promise<IStudent> { 
