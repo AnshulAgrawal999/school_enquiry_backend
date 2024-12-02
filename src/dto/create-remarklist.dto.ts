@@ -1,5 +1,4 @@
-import { IsNotEmpty , IsString, MaxLength } from "class-validator"  ;
-import { Types } from "mongoose";
+import { IsMongoId, IsNotEmpty , IsString, MaxLength } from "class-validator"  ;
 
 
 export class CreateRemarkListDto {
@@ -11,7 +10,4 @@ export class CreateRemarkListDto {
 
     @IsString()
     comment : string  ;
-
-    @IsNotEmpty()   
-    student : Types.ObjectId  ; // Reference to the Student
 }

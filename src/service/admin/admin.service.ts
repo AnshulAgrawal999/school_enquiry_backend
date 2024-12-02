@@ -256,37 +256,36 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   }
 
 
-
-  async addRemark( studentId : string , createRemarkListDto: CreateRemarkListDto ) {
-     if (!Types.ObjectId.isValid(studentId)) {
-        throw new BadRequestException('Invalid student ID');
-    }
-
-    const studentObjectId = new Types.ObjectId(studentId);
-
+  async addRemark(
+    studentId: string,
+    createRemarkListDto: CreateRemarkListDto,
+  ) {
+    
+  
     // Find the student by ID
-    const student = await this.studentModel.findById(studentObjectId);
-
+    const student = await this.studentModel.findById(studentId);
+  
     if (!student) {
-        throw new NotFoundException('Student not found');
+      throw new NotFoundException('Student not found');
     }
-
-    const newRemark = new this.remarklistModel({
-        username: createRemarkListDto.username,
-        comment: createRemarkListDto.comment,
-        student: studentObjectId, // Use the explicitly created ObjectId
+  
+    const newRemark = await this.remarklistModel.create({
+      username: createRemarkListDto.username,
+      comment: createRemarkListDto.comment,
+      student: student._id
     });
+    
 
-    await newRemark.save();
+    const id : any = newRemark._id  ;
 
-    // student.remarks.push(newRemark._id);
-
+    student.remarks.push( id )  ;
+  
     await student.save();
-
+  
     return newRemark;
   }
-
-
+  
+  
 
   async getRemarkListByStudent( studentId: string ) : Promise< IRemarkList[] > {
 

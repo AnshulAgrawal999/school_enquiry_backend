@@ -214,10 +214,12 @@ export class AdminController {
     @Post( 'addremark/:studentId' )
     async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
 
-      if (!Types.ObjectId.isValid(studentId)) {
-        throw new BadRequestException('Invalid student ID');
-    }
-    return this.adminService.addRemark(studentId, createRemarkListDto);
+      if (!Types.ObjectId.isValid(studentId)) 
+      {
+        throw new BadRequestException('Invalid student ID')  ;
+      }
+      
+      return this.adminService.addRemark( studentId , createRemarkListDto )  ;
 
     }
 
