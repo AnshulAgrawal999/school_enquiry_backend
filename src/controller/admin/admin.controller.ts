@@ -232,56 +232,55 @@ export class AdminController {
     }
     
   
-    @Get()
-    async getAllStudents( @Query('page') page: string, @Query('limit') limit: string ,  @Query('search') search: string ,
-                          @Query('sortBy') sortBy: string ,
-                          @Query('sortOrder') sortOrder: string ,
-                          @Query('filter') filter: string ,
-                          @Res() response : Response ) {
-      
-      try {
+  @Get()
+  async getAllStudents(
+    @Res() response: Response,
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Query('search') search?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: string,
+    @Query('filter') filter?: string,
+  ) {
+  try {
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 10;
+    const parsedFilter = filter ? JSON.parse(filter) : undefined;
 
-        const pageNum = parseInt( page , 10 ) || 1  ;  
-    
-        const limitNum = parseInt( limit , 10 ) || 10  ; 
+    const { enquiryFormsData, total, totalPages } = await this.adminService.getAllStudents(
+      pageNum,
+      limitNum,
+      search,
+      sortBy,
+      sortOrder,
+      parsedFilter
+    );
 
-        const { enquiryFormsData , total, totalPages } = await this.adminService.getAllStudents( pageNum , limitNum )  ;
-  
-        if ( enquiryFormsData.length == 0 ) 
-          {
-            return response.status( HttpStatus.NOT_FOUND ).json(
-              {
-                  message: 'No enquiry form found!' ,
-                  enquiryFormsData
-              }
-              )
-          }
-      
-        return response.status( HttpStatus.OK ).json(
-          {
-              message: 'Enquiry forms found successfully',
-              enquiryFormsData,
-              pagination : {
-                total ,
-                totalPages ,
-                currentPage : pageNum
-              }
-          }
-          )  ;
-  
-      } 
-      catch (err) {
-    
-          return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
-            {
-                statusCode: 500,
-                message: 'Error: Internal Server Error!',
-                err
-            }
-        )  ;
-    
-     }
+    if (enquiryFormsData.length === 0) {
+      return response.status(HttpStatus.NOT_FOUND).json({
+        message: 'No enquiry form found!',
+        enquiryFormsData,
+      });
     }
+
+    return response.status(HttpStatus.OK).json({
+      message: 'Enquiry forms found successfully',
+      enquiryFormsData,
+      pagination: {
+        total,
+        totalPages,
+        currentPage: pageNum,
+      },
+    });
+  } catch (err) {
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      statusCode: 500,
+      message: 'Error: Internal Server Error!',
+      err,
+    });
+  }
+}
+
   
   
     @Delete( '/:id' )
