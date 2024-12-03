@@ -244,7 +244,7 @@ export class AdminController {
   ) {
   try {
     const pageNum = parseInt(page, 10) || 1;
-    const limitNum = parseInt(limit, 10) || 10;
+    const limitNum = parseInt(limit, 10) || 8  ;
     const parsedFilter = filter ? JSON.parse(filter) : undefined;
 
     const { enquiryFormsData, total, totalPages } = await this.adminService.getAllStudents(
