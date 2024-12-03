@@ -207,51 +207,65 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   
   
   async getAllStudents(
-    page: number,
-    limit: number,
-    search?: string,
-    sortBy?: string,
-    sortOrder: string = 'asc',
-    filters?: any
-  ): Promise<{ enquiryFormsData: IStudent[]; total: number; totalPages: number }> {
+    limit: number = 10,
+    page: number = 1,
+    state: string = '',
+    enquirySource: string = '',
+    wantHostel : boolean = false ,
+    searchedName: string = '',
+    sort: string = '',
+    nameSort: string = '',
+  ): Promise<{ enquiryFormsData: IStudent[]; total: number; limit : number , totalPages: number , currentPage : number , nextPage : number | null }> {
     try {
-      const query: any = {};
-  
-      // Apply filters
-      if (filters) {
-        if (filters.gender) query.gender = filters.gender;
-        if (filters.currentClass) query.currentClass = filters.currentClass;
-        if (filters.enquirySource) query.enquirySource = filters.enquirySource;
-        if (filters.wantHostel !== undefined) query.wantHostel = filters.wantHostel;
-        if (filters.wantTransport !== undefined) query.wantTransport = filters.wantTransport;
-        if (filters.lastYearGrade) query.lastYearGrade = filters.lastYearGrade;
-        if (filters.address?.city) query['address.city'] = filters.address.city;
-        if (filters.dateOfBirth) {
-          query.dateOfBirth = {
-            ...(filters.dateOfBirth.gte && { $gte: new Date(filters.dateOfBirth.gte) }),
-            ...(filters.dateOfBirth.lte && { $lte: new Date(filters.dateOfBirth.lte) }),
-          };
-        }
-      }
-  
-      // Apply sorting
-      const sortOptions = {};
-      if (sortBy) sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
-  
-      // Pagination and query execution
-      const total = await this.studentModel.countDocuments(query).exec();
-      const skip = (page - 1) * limit;
-      const students = await this.studentModel.find(query).sort(sortOptions).skip(skip).limit(limit).exec();
-      const totalPages = Math.ceil(total / limit);
-  
-      return {
-        enquiryFormsData: students,
-        total,
-        totalPages,
-      };
+      
+    const offset = (page - 1) * limit;
+
+    const query: any = {};
+
+    if (state) {
+      query['address.state'] = state;
+    }
+
+    if (enquirySource) {
+      query['enquirySource'] = enquirySource;
+    }
+
+    if (wantHostel) {
+      query['wantHostel'] = wantHostel;
+    }
+
+    if (searchedName) {
+      query['studentName'] = new RegExp(searchedName, 'i');
+    }
+
+    const sortQuery: any = {};
+    
+    if (sort) {
+      sortQuery['createdAt'] = sort === 'asc' ? 1 : -1;
+    }
+    if (nameSort) {
+      sortQuery['studentName'] = nameSort === 'asc' ? 1 : -1;
+    }
+
+    const enquiries = await this.studentModel.find(query).skip(offset).limit(limit).sort(sortQuery)  ;
+
+    const total = await this.studentModel.countDocuments(query);
+
+    return {
+      enquiryFormsData : enquiries,
+      total,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      nextPage: page < Math.ceil(total / limit) ? page + 1 : null,
+    };
+
+
     } catch (error) {
-      this.logger.error('Error fetching enquiry forms', error);
-      throw new Error('Error fetching enquiry forms');
+
+      this.logger.error('Error fetching enquiry forms', error)  ;
+
+      throw new Error('Error fetching enquiry forms')  ;
     }
   }
   

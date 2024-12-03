@@ -235,25 +235,21 @@ export class AdminController {
   @Get()
   async getAllStudents(
     @Res() response: Response,
-    @Query('page') page: string,
-    @Query('limit') limit: string,
-    @Query('search') search?: string,
-    @Query('sortBy') sortBy?: string,
-    @Query('sortOrder') sortOrder?: string,
-    @Query('filter') filter?: string,
-  ) {
-  try {
-    const pageNum = parseInt(page, 10) || 1;
-    const limitNum = parseInt(limit, 10) || 8  ;
-    const parsedFilter = filter ? JSON.parse(filter) : undefined;
+    @Query('limit') limit: number = 8 ,
+    @Query('page') page: number = 1 ,
+    @Query('state') state:string = "" ,
+    @Query('enquirySource') enquirySource:string = "", 
+    @Query('wantHostel') wantHostel : boolean = false ,
+    @Query('searchedName') searchedName : string = "",
+    @Query('sort') sort:string = "",
+    @Query('nameSort') nameSort:string=""
+  ) 
+  {
 
+  try {
+    
     const { enquiryFormsData, total, totalPages } = await this.adminService.getAllStudents(
-      pageNum,
-      limitNum,
-      search,
-      sortBy,
-      sortOrder,
-      parsedFilter
+      limit, page,state,enquirySource,wantHostel,searchedName,sort,nameSort 
     );
 
     if (enquiryFormsData.length === 0) {
@@ -269,7 +265,7 @@ export class AdminController {
       pagination: {
         total,
         totalPages,
-        currentPage: pageNum,
+        currentPage: page ,
       },
     });
   } catch (err) {
