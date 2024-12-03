@@ -6,7 +6,7 @@ import { IStudent } from 'src/interface/student.interface'  ;
 
 import { IAdmin } from 'src/interface/admin.interface'  ;
 
-import { Model, Types } from "mongoose"  ;
+import { Model } from "mongoose"  ;
 
 import { UpdateStudentDto } from 'src/dto/update-student.dto'  ;
 
@@ -290,14 +290,12 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   async getRemarkListByStudent( studentId: string ) : Promise< any > {
 
     const student = await this.studentModel.findById( studentId ).populate('remarks').exec()  ;
-     
-    return student  ;
 
+    if ( !student ) {
+      throw new NotFoundException( 'Student not found' )  ;
+    }
 
-    // if ( !student ) {
-    //   throw new NotFoundException( 'Student not found' )  ;
-    // }
-    // return student.remarks as IRemarkList[] || [] ;
+    return student.remarks  ;
   }
   
   
