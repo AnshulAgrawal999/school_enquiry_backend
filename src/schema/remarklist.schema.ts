@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"  ;
 
-import { Document, Types } from "mongoose"  ;
+import { Types, Schema as MongooseSchema } from "mongoose"  ;
 
 @Schema( { timestamps: true }  )
-export class RemarkList extends Document {
+export class RemarkList {
     
     @Prop()
     username : string  ;
@@ -12,7 +12,7 @@ export class RemarkList extends Document {
     comment : string  ;
 
     // Reference to the Student
-    @Prop( { type: Types.ObjectId, ref: 'Student' } )
+    @Prop( { type: MongooseSchema.Types.ObjectId, ref: 'Student' } )
     student: Types.ObjectId  ;
 
 }

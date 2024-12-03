@@ -276,26 +276,30 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
     });
     
 
-    const id : any = newRemark._id  ;
+    const remarkId : any = newRemark._id  ;
 
-    student.remarks.push( id )  ;
+    student.remarks.push( remarkId )  ;
   
-    await student.save();
+    await student.save()  ;
   
-    return newRemark;
+    return newRemark  ;
   }
   
   
 
-  async getRemarkListByStudent( studentId: string ) : Promise< IRemarkList[] > {
+  async getRemarkListByStudent( studentId: string ) : Promise< any > {
 
-    const student = await this.studentModel.findById( studentId ).populate< { remarks: IRemarkList[] } >( 'remarks' ).exec()  ;
+    const student = await this.studentModel.findById( studentId ).populate('remarks').exec()  ;
+     
+    return student  ;
 
-    if ( !student ) {
-      throw new NotFoundException( 'Student not found' )  ;
-    }
-    return student.remarks as IRemarkList[] || [] ;
+
+    // if ( !student ) {
+    //   throw new NotFoundException( 'Student not found' )  ;
+    // }
+    // return student.remarks as IRemarkList[] || [] ;
   }
+  
   
   
   async deleteStudent( enquiryFormId : string ) : Promise<IStudent> { 

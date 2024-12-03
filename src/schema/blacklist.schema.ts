@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"  ;
 
-import { Document } from "mongoose"  ;
-
 
 // Token class
 
 @Schema( { timestamps: true } )
-export class BlackList extends Document {
+export class BlackList {
 
    @Prop()
    token: string  ;

@@ -1,9 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"  ;
 
-import { Document, Types } from "mongoose"  ;
+import { Types , Schema as MongooseSchema } from "mongoose"  ;
+
+import { RemarkList } from "./remarklist.schema"  ;
 
 
- export enum Gender 
+ export enum Gender  
  {
     male = "male" ,
     female = "female" ,
@@ -113,7 +115,7 @@ class Address {
 // Student class
 
 @Schema( { timestamps: true } )
-export class Student extends Document {
+export class Student  {
 
    @Prop()
    guardianName : string  ;
@@ -164,7 +166,7 @@ export class Student extends Document {
    wantTransport: boolean  ;
 
    // Array of RemarkList references
-   @Prop( { type: [ { type: Types.ObjectId , ref: 'RemarkList' } ] } )
+   @Prop( [ { type: MongooseSchema.Types.ObjectId , ref: RemarkList.name } ] )
    remarks: Types.ObjectId[]  ;
 }
 
