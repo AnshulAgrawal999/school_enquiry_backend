@@ -239,7 +239,6 @@ export class AdminController {
     @Query('page') page: number = 1 ,
     @Query('state') state:string = "" ,
     @Query('enquirySource') enquirySource:string = "", 
-    @Query('wantHostel') wantHostel : boolean = false ,
     @Query('searchedName') searchedName : string = "",
     @Query('sort') sort:string = "",
     @Query('nameSort') nameSort:string=""
@@ -249,7 +248,7 @@ export class AdminController {
   try {
     
     const { enquiryFormsData, total, totalPages } = await this.adminService.getAllStudents(
-      limit, page,state,enquirySource,wantHostel,searchedName,sort,nameSort 
+      limit, page,state,enquirySource,searchedName,sort,nameSort 
     );
 
     if (enquiryFormsData.length === 0) {

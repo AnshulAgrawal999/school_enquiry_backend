@@ -211,7 +211,6 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
     page: number = 1,
     state: string = '',
     enquirySource: string = '',
-    wantHostel : boolean = false ,
     searchedName: string = '',
     sort: string = '',
     nameSort: string = '',
@@ -228,10 +227,6 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
 
     if (enquirySource) {
       query['enquirySource'] = enquirySource;
-    }
-
-    if (wantHostel) {
-      query['wantHostel'] = wantHostel;
     }
 
     if (searchedName) {
