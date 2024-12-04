@@ -235,7 +235,7 @@ export class AdminController {
   @Get()
   async getAllStudents(
     @Res() response: Response,
-    @Query('limit') limit: number = 8 ,
+    @Query('limit') limit: number = 10 ,
     @Query('page') page: number = 1 ,
     @Query('state') state:string = "" ,
     @Query('enquirySource') enquirySource:string = "", 
