@@ -159,78 +159,7 @@ export class AdminController {
     }
   }
 
-    @Patch( '/:id' )
-    async updateStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: string , @Body() updateStudentDto: UpdateStudentDto ) 
-    {
-      try {
-        const existingEnquiryForm = await this.adminService.updateStudent( enquiryFormId , updateStudentDto )  ;
-    
-        return response.status( HttpStatus.OK ).json(
-              {
-                  message: 'Enquiry Form successfully updated',
-                  existingEnquiryForm
-              }
-          )  ;
-      } 
-      catch (err) {
-      
-        return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
-          {
-              statusCode: 500,
-              message: 'Error: Internal Server Error!',
-              err
-          }
-      )  ;
   
-     }
-    }
-  
-
-    @Get( '/:id' )
-    async getStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: string ) {
-     try {
-        const existingEnquiryForm = await this.adminService.getStudent( enquiryFormId )  ;
-    
-        return response.status( HttpStatus.OK ).json(
-          {
-            message: 'Enquiry Form found successfully'  ,
-            existingEnquiryForm
-          }
-      )  ;
-     } 
-     catch ( err ) {
-  
-      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(
-        {
-            statusCode: 500,
-            message: 'Error: Internal Server Error!',
-            err
-        }
-    )  ;
-     }
-    }
-
-
-    @Post( 'addremark/:studentId' )
-    async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
-
-      if (!Types.ObjectId.isValid(studentId)) 
-      {
-        throw new BadRequestException('Invalid student ID')  ;
-      }
-      
-      return this.adminService.addRemark( studentId , createRemarkListDto )  ;
-
-    }
-
-
-    @Get( 'remarklist/:studentId' )
-    async getRemarkListByStudent( @Param( 'studentId' ) studentId: string ) {
-
-      return this.adminService.getRemarkListByStudent( studentId )  ;
-
-    }
-    
   
   @Get()
   async getAllStudents(
@@ -275,6 +204,99 @@ export class AdminController {
     });
   }
 }
+
+
+@Get( 'studentcount' )
+async getNumberOfStudents(@Res() response: Response): Promise<void> {
+  try {
+    const studentCount = await this.adminService.getNumberOfStudents();
+    response.status(HttpStatus.OK).json({
+      message: 'Enquiry forms count found successfully',
+      studentCount,
+    });
+  } catch (err) {
+    console.error('Error in getNumberOfStudents:', err); // Add detailed logs
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      statusCode: 500,
+      message: 'Error: Internal Server Error!',
+      error: err.message, // Include error message for easier debugging
+    });
+  }
+}
+
+
+@Patch( '/:id' )
+async updateStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: string , @Body() updateStudentDto: UpdateStudentDto ) 
+{
+  try {
+    const existingEnquiryForm = await this.adminService.updateStudent( enquiryFormId , updateStudentDto )  ;
+
+    return response.status( HttpStatus.OK ).json(
+          {
+              message: 'Enquiry Form successfully updated',
+              existingEnquiryForm
+          }
+      )  ;
+  } 
+  catch (err) {
+  
+    return response.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+      {
+          statusCode: 500,
+          message: 'Error: Internal Server Error!',
+          err
+      }
+  )  ;
+
+ }
+}
+
+
+@Get( '/:id' )
+async getStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: string ) {
+ try {
+    const existingEnquiryForm = await this.adminService.getStudent( enquiryFormId )  ;
+
+    return response.status( HttpStatus.OK ).json(
+      {
+        message: 'Enquiry Form found successfully'  ,
+        existingEnquiryForm
+      }
+  )  ;
+ } 
+ catch ( err ) {
+
+  return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(
+    {
+        statusCode: 500,
+        message: 'Error: Internal Server Error!',
+        err
+    }
+)  ;
+ }
+}
+
+
+@Post( 'addremark/:studentId' )
+async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
+
+  if (!Types.ObjectId.isValid(studentId)) 
+  {
+    throw new BadRequestException('Invalid student ID')  ;
+  }
+  
+  return this.adminService.addRemark( studentId , createRemarkListDto )  ;
+
+}
+
+
+@Get( 'remarklist/:studentId' )
+async getRemarkListByStudent( @Param( 'studentId' ) studentId: string ) {
+
+  return this.adminService.getRemarkListByStudent( studentId )  ;
+
+}
+
 
   
   
