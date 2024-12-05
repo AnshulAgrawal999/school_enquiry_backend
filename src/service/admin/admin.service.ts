@@ -246,8 +246,10 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
 
     const total = await this.studentModel.countDocuments(query);
 
+    console.log( { enquiryFormsData : enquiries || [] } )  ;
+
     return {
-      enquiryFormsData : enquiries,
+      enquiryFormsData : enquiries || [] ,
       total,
       limit,
       totalPages: Math.ceil(total / limit),
