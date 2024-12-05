@@ -180,13 +180,6 @@ export class AdminController {
       limit, page,state,enquirySource,searchedName,sort,nameSort 
     );
 
-    if (enquiryFormsData.length === 0) {
-      return response.status(HttpStatus.NOT_FOUND).json({
-        message: 'No enquiry form found!',
-        enquiryFormsData,
-      });
-    }
-
     return response.status(HttpStatus.OK).json({
       message: 'Enquiry forms found successfully',
       enquiryFormsData,
