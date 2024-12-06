@@ -208,7 +208,7 @@ async getNumberOfStudents(@Res() response: Response): Promise<void> {
       studentCount,
     });
   } catch (err) {
-    console.error('Error in getNumberOfStudents:', err); // Add detailed logs
+    
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: 500,
       message: 'Error: Internal Server Error!',

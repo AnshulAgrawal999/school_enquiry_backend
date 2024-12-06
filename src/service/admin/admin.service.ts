@@ -268,10 +268,10 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   
   async getNumberOfStudents(): Promise<number> {
     try {
-      console.log('Querying student count...');
+    
       return await this.studentModel.countDocuments().exec();
     } catch (err) {
-      console.error('Error in getNumberOfStudents service:', err);
+    
       throw err;
     }
   }
