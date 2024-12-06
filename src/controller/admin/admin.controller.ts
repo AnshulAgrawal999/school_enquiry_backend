@@ -69,7 +69,7 @@ export class AdminController {
       {
         return response.status( HttpStatus.NOT_FOUND ).json(
           {
-              message: 'No Admin account with this username and password'  ,
+              message: 'Incorrect password'  ,
               token
           }
         )  ;

@@ -84,7 +84,7 @@ async loginAdmin( loginAdminDto : LoginAdminDto ) : Promise< IBlackList > {
 
     if ( !isPasswordValid ) {
 
-      throw new UnauthorizedException( 'Invalid password' )  ;
+      return null  ;
     }
 
     const tokenString = jwt.sign( { id: existingAdmin._id , username: existingAdmin.username } , 'schoollog', {
