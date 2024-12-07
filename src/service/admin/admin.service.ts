@@ -298,6 +298,19 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   }
 
 
+  async getRemarkListByStudent( studentId: string ) : Promise< any > {
+
+    const student = await this.studentModel.findById( studentId ).populate('remarks').exec()  ;
+
+    if ( !student ) {
+      throw new NotFoundException( 'Student not found' )  ;
+    }
+    
+    return student.remarks.reverse();
+  
+  }
+
+
   async addRemark(
     studentId: string, createRemarkListDto: CreateRemarkListDto, ) {
     
@@ -324,20 +337,44 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
   
     return newRemark  ;
   }
+
+
+  async deleteRemark(studentId: string, remarkId: string) {
+   
+    const student = await this.studentModel.findById(studentId);
   
-  
-
-  async getRemarkListByStudent( studentId: string ) : Promise< any > {
-
-    const student = await this.studentModel.findById( studentId ).populate('remarks').exec()  ;
-
-    if ( !student ) {
-      throw new NotFoundException( 'Student not found' )  ;
+    if (!student) {
+      throw new NotFoundException('Student not found');
     }
-    
-    return student.remarks.reverse();
   
+    const remark = await this.remarklistModel.findById(remarkId);
+  
+    if (!remark) {
+      throw new NotFoundException('Remark not found');
+    }
+  
+    const updatedStudent = await this.studentModel.findByIdAndUpdate(
+      studentId,
+      { $pull: { remarks: remarkId } }, // MongoDB $pull removes matching elements from an array
+      { new: true } // Return the updated document
+    );
+  
+    if (!updatedStudent) {
+      throw new Error( 'Failed to update the student document' )  ;
+    }
+  
+    const deletedRemark = await this.remarklistModel.findByIdAndDelete(remarkId)  ;
+  
+    if (!deletedRemark) {
+      throw new Error('Failed to delete the remark from remarklist collection')  ;
+    }
+  
+    return {
+      message: 'Remark successfully deleted',
+      student: updatedStudent,
+    };
   }
+  
   
   
   

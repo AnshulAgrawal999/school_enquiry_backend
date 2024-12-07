@@ -270,6 +270,15 @@ async getStudent( @Res() response : Response , @Param( 'id' ) enquiryFormId: str
 }
 
 
+
+@Get( 'remarklist/:studentId' )
+async getRemarkListByStudent( @Param( 'studentId' ) studentId: string ) {
+
+  return this.adminService.getRemarkListByStudent( studentId )  ;
+
+}
+
+
 @Post( 'addremark/:studentId' )
 async addRemark( @Param('studentId') studentId: string, @Body() createRemarkListDto: CreateRemarkListDto ) {
 
@@ -283,13 +292,23 @@ async addRemark( @Param('studentId') studentId: string, @Body() createRemarkList
 }
 
 
-@Get( 'remarklist/:studentId' )
-async getRemarkListByStudent( @Param( 'studentId' ) studentId: string ) {
+@Delete( 'deleteremark/:studentId/:remarkId' )
+async deleteRemark( @Param('studentId') studentId: string, @Param('remarkId') remarkId: string, ) 
+{
+  
+  if ( !Types.ObjectId.isValid( studentId ) ) 
+  {
+    throw new BadRequestException('Invalid student ID');
+  }
 
-  return this.adminService.getRemarkListByStudent( studentId )  ;
+  
+  if ( !Types.ObjectId.isValid( remarkId ) ) 
+  {
+    throw new BadRequestException('Invalid remark ID');
+  }
 
+  return this.adminService.deleteRemark( studentId , remarkId )  ;
 }
-
 
   
   
