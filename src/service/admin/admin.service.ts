@@ -334,8 +334,9 @@ async updateStudent( enquiryFormId : string , updateStudentDto : UpdateStudentDt
     if ( !student ) {
       throw new NotFoundException( 'Student not found' )  ;
     }
-
-    return student.remarks  ;
+    
+    return student.remarks.reverse();
+  
   }
   
   
